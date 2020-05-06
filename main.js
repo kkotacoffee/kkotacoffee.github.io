@@ -1,5 +1,16 @@
 const btn = document.querySelector('button');
 
+const isSupported = !!(
+    'ontouchstart' in window ||
+    (navigator.pointerEnabled && navigator.maxTouchPoints > 0)
+);
+
+if(isSupported){
+    document.querySelector('.log').innerHTML = 'Smartphone or Touchable-PC';
+}else{
+    document.querySelector('.log').innerHTML = 'PC';
+}
+
 const URLs = ['https://www.youtube.com/watch?v=ony539T074w',
     'https://www.youtube.com/watch?v=LIlZCmETvsY',
     'https://www.youtube.com/watch?v=MSv7NbfbtU8',
