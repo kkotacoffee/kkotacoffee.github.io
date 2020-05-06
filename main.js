@@ -41,12 +41,16 @@ function geoSuccess(position){
 
     const lng = position.coords.longitude;
 
-    const state = `https://fukuno.jig.jp/app/printmap/latlngmap.html#15/${lat}/${lng}/&base=std&ls=std&disp=1&vs=c1j0l0u0f1`;
-
-    const win = window.open(`${state}`);
-    win.focus();
+    if(isSupported){
+        const state = `https://fukuno.jig.jp/app/printmap/latlngmap.html#5/${lat}/${lng}/&vs=c1j0l0u0f1`;
+        const win = window.open(`${state}`);
+        win.focus();
+    }else{
+        const state = `https://fukuno.jig.jp/app/printmap/latlngmap.html#15/${lat}/${lng}/&base=std&ls=std&disp=1&vs=c1j0l0u0f1`;
+        const win = window.open(`${state}`);
+        win.focus();
+    }
 }
-
 
 function geoError(){
     alert('Geolocation Error');
