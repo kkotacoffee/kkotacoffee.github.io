@@ -1,4 +1,5 @@
 const btn1 = document.querySelector('.juke');
+const btn2 = document.querySelector('.title');
 
 const isSupported = !!(
     'ontouchstart' in window ||
@@ -26,3 +27,17 @@ btn1.addEventListener('click', (juke) => {
         win.focus();
     }
 });
+
+btn2.addEventListener('click', (event) => {
+    const msg = prompt('タイトルいれて','title');
+
+    document.title = msg;
+});
+
+setInterval( () => {
+    const parent = document.querySelector('.box');
+    
+    const child = document.querySelector('.del');
+
+    parent.removeChild(child);
+}, 5000);
