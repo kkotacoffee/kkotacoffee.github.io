@@ -2,7 +2,7 @@
 
 ## Links
 ### twitter
-<a href src = "https://twitter.com/kota__coffee">
+<a href = "https://twitter.com/kota__coffee">
     <div>
     <img src = "Twitter_Logo_Blue.png">
     @kota__coffee
@@ -12,7 +12,7 @@
 <br>
 
 ### github
-<a href src = "https://github.com/kkotacoffee">
+<a href = "https://github.com/kkotacoffee">
     <div>
     <img src = "GitHub-Mark-64px.png">
     kkotacoffee
@@ -22,6 +22,6 @@
 <br>
 
 ### Atcoder
-<a href src = "https://atcoder.jp/users/kkota">
+<a href = "https://atcoder.jp/users/kkota">
     kkotacoffee
 </a>
