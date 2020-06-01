@@ -23,7 +23,7 @@
 
 ### Atcoder
 <a href = "https://atcoder.jp/users/kkota">
-    kkotacoffee
+    kkota
 </a>
 
 ### part-time-job
