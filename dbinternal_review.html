@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>dbinternal_review.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E6%9C%AC%E6%9B%B8%E3%81%AE%E5%8B%95%E6%A9%9F">本書の動機</h1>
+<p>昨今の扱うデータ量の急激な拡大によりデータベースは１つのサーバのみで構築するのは無理になってきた
+そこで分散システムというDB機能を複数のサーバに配置して、それらが連携しあうことで単体DBに見せるシステムが必須となってきた</p>
+<h1 id="%E7%AC%AC%E4%B8%80%E9%83%A8">第一部</h1>
+<ul>
+<li>データベースの内部構造を詳細に解説している</li>
+<li>DBはその構造ごとにそれぞれ特徴・向き不向きがある、そのた採用する際は求める機能要件とのトレードオフを考える</li>
+</ul>
+<h1 id="1-%E5%9F%BA%E6%9C%AC%E4%BA%8B%E9%A0%85">1.　基本事項</h1>
+<ul>
+<li>用語の紹介</li>
+<li>行指向DBと列指向DB、取り出す向きで効率が変化</li>
+<li>ワイドカラムストアというJSONとその親子関係を抜き出したファミリーテーブルからなるDBもある</li>
+</ul>
+<h1 id="2-b-tree">2. B-Tree</h1>
+<ul>
+<li>B-Tree の優位性、望ましい特性</li>
+<li>ディスクベースの場合、要素の取り出しには、目的要素開始場所までディスクを回すシークと、そこからのシーケンシャルな読み取りが必要</li>
+<li>効率的なTree -&gt; 低く、ファンアウトが大きい木</li>
+<li>SSD の構成要素は小さい方からページ・ブロック・プレーン・ダイ</li>
+<li>SSD のデータアクセスにかかる時間は基本一定なので、SSD向けアルゴリズムにおいてデータの局所性は大事でない</li>
+<li>リバランシングは操作コストが大きいので、そこを減らしていけるかが重要</li>
+</ul>
+<h1 id="3-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%83%E3%83%88">3. ファイルフォーマット</h1>
+<ul>
+<li>Tree とその値がどのようにメモリにマッピングされているかを見る</li>
+<li>固定長レコードは key, value, 子ページへのポインタの３要素が、各レコードごとにまとまって、それが繋げられてページに入っている</li>
+<li>スロット化ページは、ヘッダ・ポインタ（オフセット）・セルの構成から成るページ、これにより、レコードの削除等があっても、値がどこから始まっているかの参照が楽になる（すなわち、編集も楽になる）</li>
+<li>セルにはキーセル・キーバリューセルがあり、
+<ul>
+<li>セルタイプ</li>
+<li>キータイプ</li>
+<li>キーバイト列
+に加え、キーセルは</li>
+<li>子セルへのポインタ
+を、キーバリューセルは</li>
+<li>バリュータイプ</li>
+<li>バリューバイト列
+を持つ</li>
+</ul>
+</li>
+<li>オフセットは左から、セルは右から埋めていくことでメモリ管理がしやすくなる</li>
+<li>キー順を保つために、オフセット・セルのペアが追加された際にはオフセットを書き換えることで順序を保っている</li>
+<li>空いたセルは利用可能リストがポインタで管理し、一定のルールに従って（空いているセルにピッタリ入りそうな値を入れるなど）再利用される</li>
+</ul>
+<h1 id="4-b-tree-%E3%81%AE%E3%83%A1%E3%83%A2%E3%83%AA%E4%B8%8A%E3%81%B8%E3%81%AE%E5%AE%9F%E8%A3%85">4. B-tree の（メモリ上への）実装</h1>
+<ul>
+<li>
+<p>実装の際、ページヘッダはDBごとに様々な使われ方をする</p>
+<ul>
+<li>マジックナンバー（検証と正常性検査）</li>
+<li>兄弟リンク（シークの手間削減、スプリットマージ時には更新の手間が増える）</li>
+<li>右端のポインタ（各キーにポインタを割り当てると最後のキーより大きい集合へのポインタを持つ場所がないため）</li>
+<li>ノードハイキー（キーの最大値を格納することで、各キー K_i に割り当てるポインタ p の範囲を K_{i-1} &lt;= p &lt; K_i にでき、右端のポインタと同じ役割を果たす）</li>
+<li>オーバーフローページ（容量が足りず格納しきれないページのはみ出た部分を格納する）</li>
+</ul>
+</li>
+<li>
+<p>探索時は間接ポインタを用いる、セルは挿入順に並んでいるが、セルのオフセットは論理的にソートされているためオフセットと対応するセルの値を用いて探索を行う</p>
+</li>
+<li>
+<p>探索時にパンクズリストとして各階層で選択したインデックスを記憶しておくことで操作が楽になる</p>
+</li>
+<li>
+<p>スプリット・マージの前にリバランシングをすることでコスト償却ができる、アルゴリズムはDBによって異なる</p>
+</li>
+<li>
+<p>プライマリインデックスキーは基本的に単調増加インクリメントであるため、新たな要素の追加位置は右端になり、ほとんどのスプリットは右端のノードで行われるため、効率化できる。</p>
+</li>
+<li>
+<p>このおかげでノードの位置を完全に構築・固定することができるバルクロードも可能となる</p>
+</li>
+<li>
+<p>圧縮はメモリオーバーヘッド・圧縮展開性能・圧縮率の4要素が重要</p>
+</li>
+<li>
+<p>要素の削除はセルのオフセットのみ削除されるため、使用していないセルが断片化する。これを解消するため、コンパンクション（ページの書き換え・再書き込み）が行われる</p>
+</li>
+</ul>
+<h1 id="5-%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B6%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E5%87%A6%E7%90%86%E3%81%A8%E3%83%AA%E3%82%AB%E3%83%90%E3%83%AA%E9%9B%A3%E3%81%97%E3%81%84">5. トランザクション処理とリカバリ（難しい）</h1>
+<ul>
+<li>
+<p>バッファプールとその書き込み先ディスクの順序には直接的な順序関係はない</p>
+</li>
+<li>
+<p>キャッシュのフラッシュ頻度とログ先行書き込み効率はトレードオフ</p>
+</li>
+<li>
+<p>検索時に多くアクセスされるページ（ツリーの上位ノードなど）はキャッシュにロック（ピン留め）され、長い時間キャッシュ内に残る</p>
+</li>
+<li>
+<p>キャッシュサイズを大きくしたところで、退避の回数が減るとは限らない（Beladyの異常）</p>
+</li>
+<li>
+<p>退避ポリシーはいろいろある</p>
+<ul>
+<li>FIFO</li>
+<li>LRU(lease recently used) 一番使われてないやつ</li>
+<li>2Q(2 queue LRU) - 初め第一キューに要素を入れ、もう一度呼ばれたら第一キューから第二キューに移動させることでアクセス頻度の高いページを区別</li>
+<li>LRU-K ページが K 回アクセスされるまでの時間を元に判定</li>
+</ul>
+</li>
+<li>
+<p>単一のアルゴリズムではなく CLOCK アルゴリズムのような巡回アルゴリズムもポリシーとして採用されている</p>
+</li>
+<li>
+<p>循環バッファにアクセスビットを用意して参照されたらビット変更、ビットを元に判断</p>
+</li>
+<li>
+<p>判断基準は LFU, TinyLFU では要素を入場(LRUベース)・保護観察(退避候補を保持)・保護対象の３つのキューに分け、入場キューから頻度フィルタを通して保護観察キューに送られ、保護対象との間を移動する。</p>
+</li>
+<li>
+<p>DBにおいてログ先行書き込み(Write Ahead Loggin, WAL)はリカバリの観点で重要(ARIES, Algorithm for Recovery and Isolation Exploiting Semantics)</p>
+</li>
+<li>
+<p>キャッシュからディスクに変更が同期されるまでの間情報を持っておく、すなわちDBに関する操作全てを変更前にログに書き込む</p>
+</li>
+<li>
+<p>WAL はログシーケンス番号(LSN)を持つイミュータブルで追記型のログレコードから構成される、コミットも記録されトラブルの判定に用いられる</p>
+</li>
+<li>
+<p>一定のシーケンス番号？である（同期）チェックポイントに到達するたびにトリミングが行われ、ログレコードの永続化が行われる</p>
+</li>
+<li>
+<p>キャッシュ全体をフラッシュするのは大変なので代わりにファジーチェックポイントが用いられ、LSNを区間で区切ってフラッシュを行いlast_checkpoint に最後に成功したチェックポイントを格納する</p>
+</li>
+</ul>
+
+</body>
+</html>

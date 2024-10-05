@@ -41,3 +41,16 @@ setInterval( () => {
 
     parent.removeChild(child);
 }, 5000);
+
+function goToPage() {
+    // 入力欄からURLを取得
+    const path = document.getElementById("pathInput").value;
+            
+    // パスが空でないことを確認
+    if (path) {
+        // 相対パスで移動
+        window.location.href = window.location.origin + '/' + path + '.html';
+    } else {
+        alert("相対パスを入力してください。");
+    }
+}
