@@ -35,7 +35,7 @@ btn2.addEventListener('click', (event) => {
     document.title = msg;
 });
 
-btn3.addEventListener('click', () => {
+btn3.addEventListener('click', (event) => {
     // 入力欄からURLを取得
     const path = document.getElementById("pathInput").value;
             
