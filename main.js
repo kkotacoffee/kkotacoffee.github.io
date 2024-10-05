@@ -1,5 +1,6 @@
 const btn1 = document.querySelector('.juke');
 const btn2 = document.querySelector('.title');
+const btn3 = document.querySelector('.goToPage')
 
 const isSupported = !!(
     'ontouchstart' in window ||
@@ -34,15 +35,7 @@ btn2.addEventListener('click', (event) => {
     document.title = msg;
 });
 
-setInterval( () => {
-    const parent = document.querySelector('.box');
-    
-    const child = document.querySelector('.del');
-
-    parent.removeChild(child);
-}, 5000);
-
-function goToPage() {
+btn3.addEventListener('click', () => {
     // 入力欄からURLを取得
     const path = document.getElementById("pathInput").value;
             
@@ -53,4 +46,12 @@ function goToPage() {
     } else {
         alert("相対パスを入力してください。");
     }
-}
+});
+
+setInterval( () => {
+    const parent = document.querySelector('.box');
+    
+    const child = document.querySelector('.del');
+
+    parent.removeChild(child);
+}, 5000);
